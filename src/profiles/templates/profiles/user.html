@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ user.username }} | {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <h1>{{ user.username }}</h1>
+
+  <p>
+    {% include "profiles/snippet/follow-form.html" with username=user.username is_following=is_following %}
+  </p>
+
+  <form class="form-inline" action="." method="get">
+    <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+    <button type="submit" class="btn btn-outline-success">Search</button>
+  </form>
+  <hr/>
+  {% if locations %}
+    {% for rest in locations %}
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>{{ rest.title }}</h4>
+            <p>
+              <a href="{{ request.path }}?q={{ rest.location }}">
+                {{ rest.location }}
+              </a> |
+              <a href="{{ request.path }}?q={{ rest.category }}">
+                {{ rest.category }}
+              </a>
+            </p>
+          </div>
+          <div class="card-body">
+            <ul>
+              {% for item in rest.item_set.all %}
+                <li style="margin-bottom: 15px;">
+                  {{ item.name }}<br>
+                  {% for ing in item.get_contents %}
+                    <a href="{{ request.path }}?q={{ ing }}">
+                      <span class="badge badge-pill badge-primary">
+                        {{ ing }}
+                      </span>
+                    </a>
+                  {% endfor %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="lead">No Items Found</p>
+  {% endif %}
+
+{% endblock %}

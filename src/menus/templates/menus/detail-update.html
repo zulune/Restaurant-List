@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{form.instance.title}} | Menus | {{block.super}}
+{% endblock %}
+
+{% block content %}
+  <h1>Menu Items <small><a href="{% url 'menus:create' %}">Add new</a></small></h1>
+  <div class="card">
+    <div class="card-header">
+      {{ form.instance.name }}
+    </div>
+    <div class="card-body">
+      {% if form.instance.contents %}
+        <h3>Contents:</h3>
+        <ul>
+        {% for item in form.instance.get_contents %}
+          <li>{{item}}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+      {% if form.instance.excludes %}
+        <h3>Excludes:</h3>
+        <ul>
+        {% for item in form.instance.get_excludes %}
+          <li>{{item}}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="card-footer">
+      {{ form.instance.timestamp }} | Update: {{ form.instance.update|timesince }} ago
+    </div>
+  </div>
+  <hr/>
+  <h3>Make Changes</h3>
+  {% include "snippets/form-snippet.html" with form=form %}
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('select').addClass("form-control")
+      $('input').addClass("form-control")
+      $('textarea').addClass("form-control")
+    })
+  </script>
+{% endblock %}

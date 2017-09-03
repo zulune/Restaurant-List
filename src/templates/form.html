@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ title }} | {{block.super}}
+{% endblock %}
+
+{% block content %}
+<div class='row justify-content-center'>
+<div class='col-sm-6 col-sm-offset-3'>
+<h1>{{ title }}</h1>
+
+{% include 'snippets/form-snippet.html' %}
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("input").addClass("form-control");
+      $("select").addClass("form-control");
+      $("textarea").addClass("form-control");
+      $("button").addClass("btn btn-warning btn-block");
+    })
+  </script>
+{% endblock %}

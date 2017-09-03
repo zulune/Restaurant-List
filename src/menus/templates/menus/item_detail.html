@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Item Detail
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Item Detail</h1>
+    <div class="card">
+      <div class="card-header">
+        {{object.name}}
+      </div>
+      <div class="card-body">
+        <h4 class="card-title">Location: {{object.restaurant.name}}</h4>
+        {% if object.contents %}
+        <strong>Content:</strong>
+        <ul>
+          {% for item in object.get_contents %}
+            <li>{{item}}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% if object.excludes %}
+        <strong>Exclude:</strong>
+        <ul>
+          {% for item in object.get_excludes %}
+            <li>{{item}}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      <div class="card-footer">
+        <i><strong>Create: </strong><i>{{object.timestamp}}
+        <i><strong>Update: </strong><i>{{object.update}}
+      </div>
+    </div>
+
+{% endblock %}

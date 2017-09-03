@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Item List
+{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-8 col-offset-2">
+      <h1 class="text-center">Item list</h1>
+      {% for obj in object_list %}
+        <div class="card">
+          <div class="card-header">
+              <h5 class="text-center">
+                <a href="{{ obj.get_absolute_url }}">
+                  {{obj.name}}
+                </a>
+              </h5>
+          </div>
+          <div class="card-body">
+            {% if obj.contents %}
+            <strong>Content:</strong>
+            <ul>
+              {% for item in obj.get_contents %}
+                <li>{{item}}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+            {% if obj.excludes %}
+            <strong>Exclude:</strong>
+            <ul>
+              {% for item in obj.get_excludes %}
+                <li>{{item}}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+            <a class="btn btn-primary" href="{{ obj.get_absolute_url }}">Detail</a>
+          </div>
+          <div class="card-footer">
+            <i><strong>Create: </strong><i>{{obj.timestamp}}
+            <i><strong>Update: </strong><i>{{obj.update}}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

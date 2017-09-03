@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Restaurant Detail
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h1 class="text-justify text-primary">{{ object.name }} <small>{{ object.category }}</small></h1>
+      <p>{{ object.location }}</p>
+      <p>{{ object.timestamp }}, Updated: {{ object.update|timesince }} ago</p>
+    </div>
+  </div>
+{% endblock %}

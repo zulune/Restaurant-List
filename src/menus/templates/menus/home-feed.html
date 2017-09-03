@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class='row justify-content-sm-center'>
+    <div class='col-sm-6 text-center col-sm-offset-3'>
+      <h1>User Following Feed</h1>
+      {% for obj in object_list %}
+        <div class='card'>
+          <div class="card-header">
+            <h3>
+              <a href='{% url "profiles:detail" username=obj.user.username %}'>
+                {{ obj.user.username }}
+              </a>
+            </h3>
+            <h4>{{ obj.name }}</h4>
+          </div>
+          <div class="card-body">
+            <p><a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.title }}'>{{ obj.restaurant.title }}</a>| <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.location }}'>{{ obj.restaurant.location }}</a> | <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.category }}'>{{ obj.restaurant.category }}</a></p>
+            <p>
+            <b>{{ obj.name }}:</b> with
+              {% for ing in obj.get_contents %}
+                <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ ing}}'>{{ ing}}</a>
+              {% endfor %}
+            </p>
+          </div>
+          <div class="card-footer">
+            {% if obj.timestamp == obj.update %}
+              <strong>Create: </strong><i>{{obj.timestamp}}</i>
+            {% else %}
+              <strong>Update: </strong><i>{{obj.update}}</i>
+            {% endif %}
+          </div>
+        </div>
+        <br><br>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

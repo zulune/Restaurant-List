@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Home | {{ block.super }}
+{% endblock %}
+
+{% block content %}
+{% if not request.user.is_authenticated %}
+  <div class='row'>
+    <div class='col text-center'>
+      <p class='lead'>
+      Share your pickiness with your friends. Add the restaurants add menu items like most so they get it right every time.<br/>
+
+      <a href='{% url "register" %}'>Join us</a>
+      </p>
+      <hr/>
+    </div>
+  </div>
+{% endif %}
+<div class='row justify-content-sm-center'>
+  <div class='col-sm-6 col-sm-offset-3'>
+    <h3>Recent Items</h3>
+    {% for obj in object_list %}
+      <div class='card'>
+        <div class="card-header">
+          <h3><a href='{% url "profiles:detail" username=obj.user.username %}'>{{ obj.user.username }}</a></h3>
+          <h4>{{ obj.name }}</h4>
+        </div>
+        <div class="card-body">
+          <p><a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.title }}'>{{ obj.restaurant.title }}</a>| <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.location }}'>{{ obj.restaurant.location }}</a> | <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.category }}'>{{ obj.restaurant.category }}</a></p>
+          <p>
+          <b>{{ obj.name }}:</b> with
+           {% for ing in obj.get_contents %}
+              <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ ing}}'>{{ ing}}</a>
+          {% endfor %}
+          </p>
+        </div>
+      </div>
+      <br>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

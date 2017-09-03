@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+  My Restaurants
+{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-8 col-offset-2">
+      <h1 class="text-center">My Restaurant <small><a href="{% url 'restaurants:create' %}">Add One</a></small></h1>
+      <ul class="list-unstyled">
+        {% for obj in object_list %}
+          <li class="list-group-item">
+            <h5 class="text-center"><a href="{% url 'restaurants:detail' slug=obj.slug %}">{{obj.name}}</a></h5>
+            <strong>{{obj.location}}</strong>
+            <i>{{obj.category}}</i> <br>
+            {{obj.timestamp}}{{obj.update}}
+            <a href="{% url 'restaurants:detail' obj.slug %}">Edit</a>
+          </li>
+        {% empty %}
+          <li class="list-item">
+            <a href="{% url 'restaurants:create' %}">Add One</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
